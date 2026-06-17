@@ -1,4 +1,3 @@
-
 # Задание task_03_02_09.
 #
 # Выполнил: Павлова Е.А.
@@ -82,22 +81,26 @@ if __name__ == "__main__":
     print("\n")
 
     passport_id = input("Введите номер паспорта (7 цифр): ").strip()
-    if len(passport_id) != 7:
+    try:
+        a = int(passport_id)
+        if len(passport_id) != 7:
+            print('Ошибка ввода: Введите номер паспорта(число из 7 цифр)')
+        else:
+            output = """
+                  1 способ   2 способ
+    Допущен     {:>10s} {:>10s}
+    Время (мс.) {:>10.2f} {:>10.2f}
+    """
+
+            res1 = timeit(is_ok_to_pass_1, db, passport_id)
+            res2 = timeit(is_ok_to_pass_2, db_opt, passport_id)
+
+            print(output.format(ok_str(res1[1]),
+                                ok_str(res2[1]),
+                                res1[0],
+                                res2[0]))
+    except ValueError:
         print('Ошибка ввода: Введите номер паспорта(число из 7 цифр)')
-    else:
-        output = """
-              1 способ   2 способ
-Допущен     {:>10s} {:>10s}
-Время (мс.) {:>10.2f} {:>10.2f}
-"""
-
-        res1 = timeit(is_ok_to_pass_1, db, passport_id)
-        res2 = timeit(is_ok_to_pass_2, db_opt, passport_id)
-
-        print(output.format(ok_str(res1[1]),
-                            ok_str(res2[1]),
-                            res1[0],
-                            res2[0]))
 
 # -------------
 # Пример вывода:
